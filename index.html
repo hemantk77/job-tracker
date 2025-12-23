@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Job Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Job Application Tracker 🚀</h1>
+    </header>
+
+    <section id="input-section">
+        <form id="job-form">
+            <input type="text" id="company" placeholder="Company Name" required>
+            <input type="text" id="role" placeholder="Role (e.g. Frontend Intern)" required>
+            <input type="date" id="date" required>
+            
+            <select id="status">
+                <option value="Applied">Applied</option>
+                <option value="Interview">Interview</option>
+                <option value="Offer">Offer</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+
+            <button type="submit">Add Application</button>
+        </form>
+    </section>
+
+    <section id="table-section">
+        <table>
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Role</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="job-list">
+                <tr>
+                    <td>Google</td>
+                    <td>Software Intern</td>
+                    <td>2023-10-12</td>
+                    <td><span class="status applied">Applied</span></td>
+                    <td><button class="delete-btn">X</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>
