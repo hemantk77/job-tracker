@@ -135,7 +135,7 @@ async function fetchJobs(userId) {
 
 // Delete Job
 window.deleteJob = async (id) => {
-    if(confirm("Delete this application?")) {
+    if(confirm("Delete this job application?")) {
         await deleteDoc(doc(db, "applications", id));
         fetchJobs(currentUser.uid);
     }
