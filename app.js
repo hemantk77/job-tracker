@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
 // TODO: Replace the following with your app's Firebase project configuration
 // (Paste the config object from the Firebase Console here)
