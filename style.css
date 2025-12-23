@@ -48,7 +48,6 @@ button:hover {
     background-color: #218838;
 }
 
-/* Table Styling */
 table {
     width: 100%;
     max-width: 800px;
@@ -70,7 +69,6 @@ th {
     color: white;
 }
 
-/* Status Badges */
 .status {
     padding: 5px 10px;
     border-radius: 15px;
@@ -88,4 +86,9 @@ th {
     padding: 5px 10px;
     margin: 0;
     flex: none;
+}
+
+.delete-btn:hover {
+    background-color: grey;
+    color: black;
 }
