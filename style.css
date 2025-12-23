@@ -1,114 +1,128 @@
-/* Global Reset & Fonts */
+/* 1. Global Reset & Fonts */
 * {
-    box-sizing: border-box; /* Keeps sizes consistent */
+    box-sizing: border-box;
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f2f5; /* Softer gray */
+    background-color: #eef2f6; /* Softer blue-grey */
     margin: 0;
     padding: 0;
     color: #333;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers everything */
+    align-items: center;
     min-height: 100vh;
 }
 
-/* Main Layout Container */
-section {
+/* 2. Main Layout Wrapper */
+/* This matches the <div id="dashboard-screen"> we made */
+#dashboard-screen {
     width: 90%;
     max-width: 1000px;
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Header Styling */
+/* 3. Header Styling - COLORFUL VERSION */
+section {
+    width: 100%; /* Ensures sections fill the wrapper */
+    margin-bottom: 20px;
+}
+
 header {
+    /* Gradient Background */
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: white;
-    padding: 15px 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    margin-bottom: 30px;
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    color: white; /* Text is white now */
 }
 
 header h1 {
     margin: 0;
-    font-size: 1.5rem;
-    color: #2c3e50;
+    font-size: 1.8rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    color: white !important; /* Force white text */
 }
 
-/* Fixes the button size */
+/* FIXED LOGOUT BUTTON */
 #logout-btn {
-    background-color: #e74c3c; /* Red for logout */
-    color: white;
+    background-color: white;
+    color: #d63031; /* Red text */
     border: none;
-    padding: 8px 20px;
-    font-size: 0.9rem;
-    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 30px; /* Pill shape */
     cursor: pointer;
-    width: auto; /* IMPORTANT: Prevents stretching */
-    transition: background 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease; /* Smooth animation */
 }
 
 #logout-btn:hover {
-    background-color: #c0392b;
+    background-color: #ffecec; /* Light red tint on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
-/* Input Form Styling */
+/* 4. Input Section */
 #input-section {
     background: white;
     padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    margin-bottom: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
 #job-form {
     display: grid;
-    grid-template-columns: 1.5fr 1.5fr 1fr 1fr auto; /* Smart columns */
+    grid-template-columns: 1.5fr 1.5fr 1fr 1fr auto; 
     gap: 15px;
     align-items: center;
 }
 
 input, select {
     padding: 12px;
-    border: 1px solid #e1e4e8;
-    border-radius: 8px;
+    border: 2px solid #e1e4e8; /* Slightly thicker border */
+    border-radius: 10px;
     font-size: 0.95rem;
     outline: none;
+    transition: border-color 0.2s;
 }
 
 input:focus, select:focus {
-    border-color: #007bff;
+    border-color: #4facfe; /* Matches header blue */
 }
 
 /* Add Button */
 button[type="submit"] {
-    background-color: #007bff;
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     color: white;
     border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-weight: bold;
     cursor: pointer;
-    transition: transform 0.1s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.1s, box-shadow 0.2s;
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3;
-    transform: scale(1.02);
+    transform: scale(1.05); /* Grows slightly */
+    box-shadow: 0 6px 10px rgba(79, 172, 254, 0.4);
 }
 
-/* 5. Table Styling */
+/* 5. Table Styling - COLORFUL VERSION */
 #table-section {
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    overflow: hidden; /* Ensures rounded corners work */
-    padding: 0; /* Removes padding to let table hit edges */
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    overflow: hidden;
 }
 
 table {
@@ -117,41 +131,37 @@ table {
 }
 
 thead {
-    background-color: #f8f9fa;
-    border-bottom: 2px solid #e9ecef;
+    background-color: #34495e; /* Dark Blue-Grey Header */
+    color: white;
 }
 
 th {
     padding: 18px 25px;
     text-align: left;
-    color: #495057;
-    font-weight: 700;
-    font-size: 0.9rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
 }
 
 td {
     padding: 20px 25px;
-    border-bottom: 1px solid #f1f3f5;
+    border-bottom: 1px solid #f0f0f0;
     color: #555;
-}
-
-tr:last-child td {
-    border-bottom: none;
+    font-weight: 500;
 }
 
 tr:hover {
-    background-color: #fcfcfc;
+    background-color: #f8faff; /* Very light blue on hover */
 }
 
-/* Badges & Buttons */
+/* 6. Status Badges */
 .status {
-    padding: 6px 12px;
+    padding: 8px 15px;
     border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
 .applied { background-color: #fff3cd; color: #856404; }
@@ -159,39 +169,61 @@ tr:hover {
 .offer { background-color: #d4edda; color: #155724; }
 .rejected { background-color: #f8d7da; color: #721c24; }
 
+/* Delete Button */
 .delete-btn {
-    background-color: transparent;
-    color: #dc3545;
-    border: 1px solid #dc3545;
-    padding: 6px 12px;
-    border-radius: 6px;
+    background-color: white;
+    color: #ff4757;
+    border: 2px solid #ff4757;
+    padding: 5px 15px;
+    border-radius: 20px;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-weight: bold;
     transition: all 0.2s;
-    width: auto;
 }
 
 .delete-btn:hover {
-    background-color: #dc3545;
+    background-color: #ff4757;
     color: white;
 }
 
-/* Login Screen (Centered Box) */
+/* 7. Login Screen */
 #login-screen {
     max-width: 400px;
     margin: 100px auto;
     background: white;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    text-align: center;
 }
 
-/* Mobile Responsiveness */
+#login-screen h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+#login-btn {
+    margin-top: 20px;
+    background-color: #4285F4; /* Google Blue */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#login-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Mobile */
 @media (max-width: 768px) {
     #job-form {
         grid-template-columns: 1fr;
     }
-    
     header {
         flex-direction: column;
         gap: 15px;
