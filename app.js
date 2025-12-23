@@ -49,9 +49,10 @@ jobForm.addEventListener('submit', async (e) => {
 
         console.log("Success! Job added.");
         
-        // 5. Clear the form so it's ready for the next one
+        // Clear the form
         jobForm.reset();
         alert("Job added successfully!");
+        fetchJobs();
 
     } catch (error) {
         console.error("Error adding document: ", error);
@@ -59,24 +60,24 @@ jobForm.addEventListener('submit', async (e) => {
     }
 });
 
-// --- FETCH DATA FUNCTION ---
+// FETCH DATA FUNCTION
 async function fetchJobs() {
     const jobList = document.getElementById('job-list');
     
-    // 1. Clear the fake/old data first
+    // Clear the fake/old data first
     jobList.innerHTML = ""; 
 
     try {
         console.log("Fetching jobs...");
         
-        // 2. Get all documents from the "applications" collection
+        // Get all documents from the "applications" collection
         const querySnapshot = await getDocs(collection(db, "applications"));
         
-        // 3. Loop through each document
+        // Loop through each document
         querySnapshot.forEach((doc) => {
-            const job = doc.data(); // This gets the actual data (company, role, etc.)
+            const job = doc.data(); // This gets the actual data
             
-            // 4. Create a new HTML row
+            // Create a new HTML row
             const row = document.createElement('tr');
             
             row.innerHTML = `
@@ -87,7 +88,7 @@ async function fetchJobs() {
                 <td><button class="delete-btn" onclick="deleteJob('${doc.id}')">X</button></td>
             `;
 
-            // 5. Add the row to the table
+            // Add the row to the table
             jobList.appendChild(row);
         });
 
@@ -96,5 +97,5 @@ async function fetchJobs() {
     }
 }
 
-// --- RUN THE FETCH ON LOAD ---
+// RUN THE FETCH ON LOAD
 fetchJobs();
