@@ -99,3 +99,25 @@ async function fetchJobs() {
 
 // RUN THE FETCH ON LOAD
 fetchJobs();
+
+// DELETE FUNCTION
+// We attach it to "window" so the HTML onclick="" can see it
+window.deleteJob = async (id) => {
+    // Ask for confirmation
+    if(confirm("Are you sure you want to delete this job?")) {
+        
+        try {
+            console.log("Deleting job:", id);
+            
+            // 2. Delete the specific document from Firebase
+            await deleteDoc(doc(db, "applications", id));
+            
+            // 3. Refresh the list so the row disappears
+            fetchJobs();
+            
+        } catch (error) {
+            console.error("Error deleting job:", error);
+            alert("Could not delete. Check console.");
+        }
+    }
+};
