@@ -1,9 +1,12 @@
-// Import the functions you need from the SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+import { 
+    getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where 
+} from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+import { 
+    getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
 
-// TODO: Replace the following with your app's Firebase project configuration
-// (Paste the config object from the Firebase Console here)
+// CONFIGURATION
 const firebaseConfig = {
   apiKey: "AIzaSyBRjSG14pCYqMsZ48mdAAn_wnKUjPlckgI",
   authDomain: "student-job-tracker-3ccf7.firebaseapp.com",
@@ -17,69 +20,103 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-// Log to console to check connection
-console.log("Firebase Connected 🚀");
+// Global variable to track the current user
+let currentUser = null; 
 
-// Select the job form
+// AUTH LOGIC
+const loginBtn = document.getElementById('login-btn');
+const logoutBtn = document.getElementById('logout-btn');
+const loginScreen = document.getElementById('login-screen');
+const dashboardScreen = document.getElementById('dashboard-screen');
+
+// Login Function
+loginBtn.addEventListener('click', async () => {
+    try {
+        await signInWithPopup(auth, provider);
+    } catch (error) {
+        console.error("Login failed", error);
+    }
+});
+
+// Logout Function
+logoutBtn.addEventListener('click', () => {
+    signOut(auth);
+    alert("Logged out!");
+});
+
+// Auth State Observer (The "Security Guard")
+// This runs automatically whenever someone logs in or out
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // User is signed in
+        currentUser = user;
+        loginScreen.style.display = 'none';      // Hide login
+        dashboardScreen.style.display = 'block'; // Show app
+        console.log("User logged in:", user.email);
+        
+        // Fetch ONLY this user's jobs
+        fetchJobs(user.uid); 
+    } else {
+        // User is signed out
+        currentUser = null;
+        loginScreen.style.display = 'block';     // Show login
+        dashboardScreen.style.display = 'none';  // Hide app
+        document.getElementById('job-list').innerHTML = ""; // Clear table for security
+    }
+});
+
+
+// APP LOGIC
+// Add Job (Updated to include User ID)
 const jobForm = document.getElementById('job-form');
 
-// Listen for the "Submit" event
 jobForm.addEventListener('submit', async (e) => {
-    e.preventDefault(); // STOP the page from refreshing (very important!)
+    e.preventDefault();
 
-    // Grab the data from the input boxes
+    if (!currentUser) return; // Stop if not logged in
+
     const company = document.getElementById('company').value;
     const role = document.getElementById('role').value;
     const date = document.getElementById('date').value;
     const status = document.getElementById('status').value;
 
-    console.log("Saving to Firebase...", company, role);
-
     try {
-        // Send the data to Firestore
-        // "applications" is the name of the folder (collection) in your database
         await addDoc(collection(db, "applications"), {
+            uid: currentUser.uid,
             company: company,
             role: role,
             date: date,
             status: status,
-            createdAt: new Date() // Helpful for sorting later
+            createdAt: new Date()
         });
 
-        console.log("Success! Job added.");
-        
-        // Clear the form
         jobForm.reset();
-        alert("Job added successfully!");
-        fetchJobs();
-
+        fetchJobs(currentUser.uid); // Refresh list
+        
     } catch (error) {
         console.error("Error adding document: ", error);
-        alert("Something went wrong. Check the console.");
     }
 });
 
-// FETCH DATA FUNCTION
-async function fetchJobs() {
+
+// Fetch Jobs (Updated to filter by User ID)
+async function fetchJobs(userId) {
     const jobList = document.getElementById('job-list');
-    
-    // Clear the fake/old data first
     jobList.innerHTML = ""; 
 
     try {
-        console.log("Fetching jobs...");
+        // Create a query: "Give me jobs WHERE the uid matches the logged-in user"
+        const q = query(collection(db, "applications"), where("uid", "==", userId));
         
-        // Get all documents from the "applications" collection
-        const querySnapshot = await getDocs(collection(db, "applications"));
+        const querySnapshot = await getDocs(q);
         
-        // Loop through each document
         querySnapshot.forEach((doc) => {
-            const job = doc.data(); // This gets the actual data
+            const job = doc.data();
             
-            // Create a new HTML row
             const row = document.createElement('tr');
-            
             row.innerHTML = `
                 <td>${job.company}</td>
                 <td>${job.role}</td>
@@ -87,8 +124,6 @@ async function fetchJobs() {
                 <td><span class="status ${job.status.toLowerCase()}">${job.status}</span></td>
                 <td><button class="delete-btn" onclick="deleteJob('${doc.id}')">X</button></td>
             `;
-
-            // Add the row to the table
             jobList.appendChild(row);
         });
 
@@ -97,27 +132,11 @@ async function fetchJobs() {
     }
 }
 
-// RUN THE FETCH ON LOAD
-fetchJobs();
 
-// DELETE FUNCTION
-// We attach it to "window" so the HTML onclick="" can see it
+// Delete Job
 window.deleteJob = async (id) => {
-    // Ask for confirmation
-    if(confirm("Are you sure you want to delete this job?")) {
-        
-        try {
-            console.log("Deleting job:", id);
-            
-            // 2. Delete the specific document from Firebase
-            await deleteDoc(doc(db, "applications", id));
-            
-            // 3. Refresh the list so the row disappears
-            fetchJobs();
-            
-        } catch (error) {
-            console.error("Error deleting job:", error);
-            alert("Could not delete. Check console.");
-        }
+    if(confirm("Delete this application?")) {
+        await deleteDoc(doc(db, "applications", id));
+        fetchJobs(currentUser.uid);
     }
 };

@@ -8,48 +8,49 @@
 </head>
 <body>
 
-    <header>
-        <h1>Job Application Tracker 🚀</h1>
-    </header>
-
-    <section id="input-section">
-        <form id="job-form">
-            <input type="text" id="company" placeholder="Company Name" required>
-            <input type="text" id="role" placeholder="Role (e.g. Frontend Intern)" required>
-            <input type="date" id="date" required>
-            
-            <select id="status">
-                <option value="Applied">Applied</option>
-                <option value="Interview">Interview</option>
-                <option value="Offer">Offer</option>
-                <option value="Rejected">Rejected</option>
-            </select>
-
-            <button type="submit">Add Application</button>
-        </form>
+    <section id="login-screen" style="text-align: center; margin-top: 100px;">
+        <h1>Welcome to Job Tracker 🚀</h1>
+        <p>Keep your applications organized and secure.</p>
+        <button id="login-btn" style="padding: 15px 30px; font-size: 1.2rem;">Sign in with Google</button>
     </section>
 
-    <section id="table-section">
-        <table>
-            <thead>
-                <tr>
-                    <th>Company</th>
-                    <th>Role</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="job-list">
-                <tr>
-                    <td>Google</td>
-                    <td>Software Intern</td>
-                    <td>2023-10-12</td>
-                    <td><span class="status applied">Applied</span></td>
-                    <td><button class="delete-btn">X</button></td>
-                </tr>
-            </tbody>
-        </table>
+
+    <section id="dashboard-screen" style="display: none;">
+        <header style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>My Job Applications</h1>
+            <button id="logout-btn" style="background-color: #6c757d;">Logout</button>
+        </header>
+
+        <section id="input-section">
+            <form id="job-form">
+                <input type="text" id="company" placeholder="Company Name" required>
+                <input type="text" id="role" placeholder="Role (e.g. Frontend Intern)" required>
+                <input type="date" id="date" required>
+                <select id="status">
+                    <option value="Applied">Applied</option>
+                    <option value="Interview">Interview</option>
+                    <option value="Offer">Offer</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+                <button type="submit">Add Application</button>
+            </form>
+        </section>
+
+        <section id="table-section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Role</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="job-list">
+                    </tbody>
+            </table>
+        </section>
     </section>
 
     <script type="module" src="app.js"></script>
