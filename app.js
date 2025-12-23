@@ -58,3 +58,43 @@ jobForm.addEventListener('submit', async (e) => {
         alert("Something went wrong. Check the console.");
     }
 });
+
+// --- FETCH DATA FUNCTION ---
+async function fetchJobs() {
+    const jobList = document.getElementById('job-list');
+    
+    // 1. Clear the fake/old data first
+    jobList.innerHTML = ""; 
+
+    try {
+        console.log("Fetching jobs...");
+        
+        // 2. Get all documents from the "applications" collection
+        const querySnapshot = await getDocs(collection(db, "applications"));
+        
+        // 3. Loop through each document
+        querySnapshot.forEach((doc) => {
+            const job = doc.data(); // This gets the actual data (company, role, etc.)
+            
+            // 4. Create a new HTML row
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+                <td>${job.company}</td>
+                <td>${job.role}</td>
+                <td>${job.date}</td>
+                <td><span class="status ${job.status.toLowerCase()}">${job.status}</span></td>
+                <td><button class="delete-btn" onclick="deleteJob('${doc.id}')">X</button></td>
+            `;
+
+            // 5. Add the row to the table
+            jobList.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error("Error fetching jobs:", error);
+    }
+}
+
+// --- RUN THE FETCH ON LOAD ---
+fetchJobs();
